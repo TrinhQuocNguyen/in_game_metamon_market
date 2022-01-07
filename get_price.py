@@ -224,7 +224,7 @@ class MetamonPlayer:
 def write_to_file(egg_price, potion_price):
     now = datetime.now()
     st.subheader('Last Update: '+ now.strftime("%d/%m/%Y %H:%M:%S"))    
-    row_egg = [now.strftime("%d/%m/%Y %H:%M:%S"), egg_price]
+    row_egg = [egg_price]
     # open the file in the write mode
     with open('data\streamlit_egg.csv', 'a', newline='', encoding='UTF8') as f:
         # create the csv writer
@@ -232,7 +232,7 @@ def write_to_file(egg_price, potion_price):
         # write a row to the csv file
         writer.writerow(row_egg)
 
-    row_potion = [now.strftime("%d/%m/%Y %H:%M:%S"), potion_price]    
+    row_potion =  [potion_price]    
     # open the file in the write mode
     with open('data\streamlit_potion.csv', 'a', newline='', encoding='UTF8') as f:
         # create the csv writer
