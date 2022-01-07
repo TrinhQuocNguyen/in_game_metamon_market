@@ -305,7 +305,7 @@ def run(args):
         # draw_egg_price()
     
         egg_price, potion_price = mtm.get_lowest_price(w_name=r["name"])
-        notify(egg_price, potion_price, egg_below=5000, egg_over=4300, potion_below=1291, potion_over=1400)
+        notify(egg_price, potion_price, egg_below=4000, egg_over=4300, potion_below=1291, potion_over=1400)
         write_to_file(egg_price, potion_price)
         st.subheader('Egg Graph')
         df_egg = pd.read_csv("data\streamlit_egg.csv")
