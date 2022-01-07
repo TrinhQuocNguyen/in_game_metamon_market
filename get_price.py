@@ -164,6 +164,42 @@ class MetamonPlayer:
             
             return potion_price
 
+    def get_yellow_diamond_price(self):
+        while True:
+            payload = {
+                "address": self.address, 
+                'type':'3',
+                'orderType':'2',
+                'orderId':'-1',
+                'pageSize':'10',
+                'orderAmount':'',
+            }
+            headers = {
+                "accessToken": self.token,
+            }
+            response = post_formdata(payload, EGG_PRICE_URL, headers)
+            yellow_price = response.get("data", {}).get("shopOrderList", [])
+            
+            return yellow_price
+
+    def get_purple_diamond_price(self):
+        while True:
+            payload = {
+                "address": self.address, 
+                'type':'4',
+                'orderType':'2',
+                'orderId':'-1',
+                'pageSize':'10',
+                'orderAmount':'',
+            }
+            headers = {
+                "accessToken": self.token,
+            }
+            response = post_formdata(payload, EGG_PRICE_URL, headers)
+            purple_price = response.get("data", {}).get("shopOrderList", [])
+            
+            return purple_price
+
     def list_monsters(self):
         """ Obtain list of metamons on the wallet (deprecated)"""
         payload = {"address": self.address, "page": 1, "pageSize": 60, "payType": -6}
@@ -200,8 +236,10 @@ class MetamonPlayer:
 
         egg_price = self.get_egg_price()
         potion_price = self.get_potion_price()
+        yellow_price = self.get_yellow_diamond_price()
+        purple_price = self.get_purple_diamond_price()
 
-        return egg_price[0]['amount'], potion_price[0]['amount'], 
+        return egg_price[0]['amount'], potion_price[0]['amount'], yellow_price[0]['amount'], purple_price[0]['amount']
 
     def mint_eggs(self):
         self.init_token()
@@ -221,7 +259,7 @@ class MetamonPlayer:
             minted_eggs += 1
         print(f"Minted Eggs Total: {minted_eggs}")
 
-def write_to_file(egg_price, potion_price):
+def write_to_file(egg_price, potion_price, yellow_price, purple_price):
     now = datetime.now()
     st.subheader('Last Update: '+ now.strftime("%d/%m/%Y %H:%M:%S"))    
     row_egg = [egg_price]
@@ -239,6 +277,23 @@ def write_to_file(egg_price, potion_price):
         writer = csv.writer(f)
         # write a row to the csv file
         writer.writerow(row_potion)
+        row_potion =  [potion_price]    
+
+    row_yellow =  [yellow_price]    
+    # open the file in the write mode
+    with open('data\streamlit_yellow_diamond.csv', 'a', newline='', encoding='UTF8') as f:
+        # create the csv writer
+        writer = csv.writer(f)
+        # write a row to the csv file
+        writer.writerow(row_yellow)
+
+    row_purple=  [purple_price]    
+    # open the file in the write mode
+    with open('data\streamlit_purple_diamond.csv', 'a', newline='', encoding='UTF8') as f:
+        # create the csv writer
+        writer = csv.writer(f)
+        # write a row to the csv file
+        writer.writerow(row_purple)
 
 def draw_graph():
     df = pd.read_csv('data\egg_potion.csv')
@@ -259,7 +314,7 @@ def draw_graph():
 
     plt.show()
 
-def notify(egg_price, potion_price, egg_below=4000, egg_over=5000, potion_below=1000, potion_over=1500):
+def notify_egg_potion(egg_price, potion_price, egg_below=4000, egg_over=5000, potion_below=1000, potion_over=1500):
     # print("-----")
     
     st.markdown('Egg Lowest Price   :  **'+ str(egg_price) +'**.')
@@ -269,23 +324,41 @@ def notify(egg_price, potion_price, egg_below=4000, egg_over=5000, potion_below=
         st.markdown('******************************')
         new_title = '<p style="font-family:sans-serif; color:Red; font-size: 42px;">' + 'WARNING: Egg Price is below: **'+ str(egg_below) +'**.'+ '</p>'
         st.markdown(new_title, unsafe_allow_html=True)
-        # st.markdown('WARNING: Egg Price is below: **'+ str(egg_below) +'**.')
     if (float(egg_price) > float(egg_over)):
         st.markdown('******************************')
         new_title = '<p style="font-family:sans-serif; color:Red; font-size: 42px;">' + 'WARNING: Egg Price is over: **'+ str(egg_over) +'**.'+ '</p>'
         st.markdown(new_title, unsafe_allow_html=True)
-        # st.markdown('WARNING: Egg Price is over: **'+ str(egg_over) +'**.')
     if (float(potion_price) < float(potion_below)):
         st.markdown('******************************')
         new_title = '<p style="font-family:sans-serif; color:Red; font-size: 42px;">' + 'WARNING: Potion Price is below: **'+ str(potion_below) +'**.' + '</p>'
         st.markdown(new_title, unsafe_allow_html=True)        
-        # st.markdown('WARNING: Potion Price is below: **'+ str(potion_below) +'**.')
     if (float(potion_price) > float(potion_over)):
         st.markdown('******************************')
         new_title = '<p style="font-family:sans-serif; color:Red; font-size: 42px;">' + 'WARNING: Potion Price is over: **'+ str(potion_over) +'**.' + '</p>'
         st.markdown(new_title, unsafe_allow_html=True)        
-        # st.markdown('WARNING: Potion Price is over: **'+ str(potion_over) +'**.')
 
+def notify_diamond(yellow_price, purple_price, yellow_below=4000, yellow_over=5000, purple_below=1000, purple_over=1500):
+    # print("-----")
+    
+    st.markdown('Yellow Lowest Price   :  **'+ str(yellow_price) +'**.')
+    st.markdown('Purple Lowest Price:  **'+ str(purple_price) +'**.')
+
+    if (float(yellow_price) < float(yellow_below)):
+        st.markdown('******************************')
+        new_title = '<p style="font-family:sans-serif; color:Red; font-size: 42px;">' + 'WARNING: Yellow Price is below: **'+ str(yellow_below) +'**.'+ '</p>'
+        st.markdown(new_title, unsafe_allow_html=True)
+    if (float(yellow_price) > float(yellow_over)):
+        st.markdown('******************************')
+        new_title = '<p style="font-family:sans-serif; color:Red; font-size: 42px;">' + 'WARNING: Yellow Price is over: **'+ str(egg_over) +'**.'+ '</p>'
+        st.markdown(new_title, unsafe_allow_html=True)
+    if (float(purple_price) < float(purple_below)):
+        st.markdown('******************************')
+        new_title = '<p style="font-family:sans-serif; color:Red; font-size: 42px;">' + 'WARNING: Purple Price is below: **'+ str(purple_below) +'**.' + '</p>'
+        st.markdown(new_title, unsafe_allow_html=True)        
+    if (float(purple_price) > float(purple_over)):
+        st.markdown('******************************')
+        new_title = '<p style="font-family:sans-serif; color:Red; font-size: 42px;">' + 'WARNING: Purple Price is over: **'+ str(purple_over) +'**.' + '</p>'
+        st.markdown(new_title, unsafe_allow_html=True)    
 
 def run(args):
     # determine delimiter char from given input file
@@ -304,9 +377,11 @@ def run(args):
                             output_stats=args.save_results)
         # draw_egg_price()
     
-        egg_price, potion_price = mtm.get_lowest_price(w_name=r["name"])
-        notify(egg_price, potion_price, egg_below=4000, egg_over=4300, potion_below=1291, potion_over=1400)
-        write_to_file(egg_price, potion_price)
+        egg_price, potion_price, yello_price, purple_price = mtm.get_lowest_price(w_name=r["name"])
+        write_to_file(egg_price, potion_price,yello_price,purple_price)
+        # egg and potion
+        notify_egg_potion(egg_price, potion_price, egg_below=4000, egg_over=4300, potion_below=1291, potion_over=1400) 
+
         st.subheader('Egg Graph')
         df_egg = pd.read_csv("data\streamlit_egg.csv")
         st.line_chart(df_egg)
@@ -314,6 +389,22 @@ def run(args):
         st.subheader('Potion Graph')
         df_potion = pd.read_csv("data\streamlit_potion.csv")    
         st.line_chart(df_potion)
+
+        # diamonds
+        now = datetime.now()
+        st.subheader('Last Update: '+ now.strftime("%d/%m/%Y %H:%M:%S"))    
+        notify_diamond(yello_price, purple_price, yellow_below=5990, yellow_over=6300, purple_below=136000, purple_over=140000)
+        st.subheader('Yellow Diamond Graph')
+        df_yellow = pd.read_csv("data\streamlit_yellow_diamond.csv")
+        st.line_chart(df_yellow)
+
+        st.subheader('Purple Diamond Graph')
+        df_purple = pd.read_csv("data\streamlit_purple_diamond.csv")    
+        st.line_chart(df_purple)
+
+
+
+
 
 
 
