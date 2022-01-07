@@ -2,3 +2,4 @@ streamlit_autorefresh
 streamlit
 numpy
 pandas
+matplotlib
