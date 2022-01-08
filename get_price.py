@@ -317,7 +317,7 @@ def draw_graph():
 def notify_egg_potion(egg_price, potion_price, egg_below=4000, egg_over=5000, potion_below=1000, potion_over=1500):
     # print("-----")
 
-    st.markdown('<p style="font-family:sans-serif; color:Green; font-size: 20px;">' + 'EGG Lowest Price   : '+ str(egg_price) + '</p>', unsafe_allow_html=True) 
+    st.markdown('<p style="font-family:sans-serif; color:GoldenRod; font-size: 20px;">' + 'EGG Lowest Price   : '+ str(egg_price) + '</p>', unsafe_allow_html=True) 
     st.markdown('<p style="font-family:sans-serif; color:Green; font-size: 20px;">' + 'POTION Lowest Price: '+ str(potion_price) + '</p>', unsafe_allow_html=True) 
 
     if (float(egg_price) < float(egg_below)):
