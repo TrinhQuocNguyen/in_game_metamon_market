@@ -340,8 +340,8 @@ def notify_egg_potion(egg_price, potion_price, egg_below=4000, egg_over=5000, po
 def notify_diamond(yellow_price, purple_price, yellow_below=4000, yellow_over=5000, purple_below=1000, purple_over=1500):
     # print("-----")
     
-    st.markdown('<p style="font-family:sans-serif; color:Purple; font-size: 20px;">' + 'YELLOW Lowest Price: '+ str(yellow_price) + '</p>', unsafe_allow_html=True) 
-    st.markdown('<p style="font-family:sans-serif; color:Yellow; font-size: 20px;">' + 'PURPLE Lowest Price: '+ str(purple_price) + '</p>', unsafe_allow_html=True) 
+    st.markdown('<p style="font-family:sans-serif; color:Yellow; font-size: 20px;">' + 'YELLOW Lowest Price: '+ str(yellow_price) + '</p>', unsafe_allow_html=True) 
+    st.markdown('<p style="font-family:sans-serif; color:Purple; font-size: 20px;">' + 'PURPLE Lowest Price: '+ str(purple_price) + '</p>', unsafe_allow_html=True) 
 
     if (float(yellow_price) < float(yellow_below)):
         st.markdown('******************************')
