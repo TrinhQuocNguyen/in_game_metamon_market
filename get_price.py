@@ -25,7 +25,7 @@ MINT_EGG_URL = f"{BASE_URL}/composeMonsterEgg"
 EGG_PRICE_URL = f"{BASE_URL}/shop-order/sellList"
 
 # update every minute (60*1000)
-st_autorefresh(interval= 1*60*1000, key="dataframerefresh")
+st_autorefresh(interval= 5*60*1000, key="dataframerefresh")
 
 def datetime_now():
     return datetime.now().strftime("%m/%d/%Y %H:%M:%S")
