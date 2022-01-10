@@ -261,7 +261,7 @@ class MetamonPlayer:
 
 def write_to_file(egg_price, potion_price, yellow_price, purple_price):
     now = datetime.now()
-    st.subheader('Last Update: '+ now.strftime("%d/%m/%Y %H:%M:%S"))    
+    st.subheader('IN GAME PRICE - Last Update: '+ now.strftime("%d/%m/%Y %H:%M:%S"))    
     row_egg = [egg_price]
     # open the file in the write mode
     with open('data\streamlit_egg.csv', 'a', newline='', encoding='UTF8') as f:
