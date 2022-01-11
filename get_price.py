@@ -386,19 +386,19 @@ def run(args):
         df_egg = pd.read_csv("data\streamlit_egg.csv")
         st.line_chart(df_egg)
 
-        st.subheader('Potion Graph')
+        st.subheader('IN GAME PRICE - Potion Graph')
         df_potion = pd.read_csv("data\streamlit_potion.csv")    
         st.line_chart(df_potion)
 
         # diamonds
         now = datetime.now()
-        st.subheader('Last Update: '+ now.strftime("%d/%m/%Y %H:%M:%S"))    
+        st.subheader('IN GAME PRICE - Last Update: '+ now.strftime("%d/%m/%Y %H:%M:%S"))    
         notify_diamond(yello_price, purple_price, yellow_below=5990, yellow_over=6300, purple_below=136000, purple_over=140000)
-        st.subheader('Yellow Diamond Graph')
+        st.subheader('IN GAME PRICE - Yellow Diamond Graph')
         df_yellow = pd.read_csv("data\streamlit_yellow_diamond.csv")
         st.line_chart(df_yellow)
 
-        st.subheader('Purple Diamond Graph')
+        st.subheader('IN GAME PRICE - Purple Diamond Graph')
         df_purple = pd.read_csv("data\streamlit_purple_diamond.csv")    
         st.line_chart(df_purple)
 
