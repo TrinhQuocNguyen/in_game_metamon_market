@@ -1,3 +1,3 @@
-# test and fake
+# Test and fake
 
-## to use this tool, you need to provide 12-word phrase
+### To use this tool, you need to provide 12-word phrase
